@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Network Speed Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f2f2f2;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 320px;
+    }
+    button {
+      padding: 12px 20px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    h2 { margin-bottom: 20px; }
+    .result { font-size: 24px; margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Network Speed Test</h2>
+    <button onclick="startTest()">Start Test</button>
+    <div class="result" id="downloadSpeed">Download: -- Mbps</div>
+    <div class="result" id="uploadSpeed">Upload: -- Mbps</div>
+  </div>
+
+  <script>
+    async function startTest() {
+      // Simple Download Test
+      const fileUrl = "https://speed.hetzner.de/5MB.bin"; // test file
+      const start = new Date().getTime();
+      const response = await fetch(fileUrl);
+      const data = await response.blob();
+      const end = new Date().getTime();
+
+      const duration = (end - start) / 1000; // seconds
+      const fileSize = data.size * 8 / (1024 * 1024); // Megabits
+      const speedMbps = (fileSize / duration).toFixed(2);
+      document.getElementById("downloadSpeed").innerText = `Download: ${speedMbps} Mbps`;
+
+      // Fake Upload Test (real upload requires server)
+      const uploadSpeed = (speedMbps / 2).toFixed(2); // placeholder
+      document.getElementById("uploadSpeed").innerText = `Upload: ${uploadSpeed} Mbps`;
+    }
+  </script>
+</body>
+</html>
